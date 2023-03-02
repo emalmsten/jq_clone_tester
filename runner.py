@@ -26,7 +26,7 @@ def run_test(cmd, data):
     # get the results from running the command on the data with each jq version
     res_strs = map(lambda jq_version: os.popen(f"{get_data_command} {data} | {jq_version} \"{cmd}\"").read(), jq_versions)
 
-    # remove the last line from the results
+    # remove the last empty line from the results
     expected, actual = map(lambda res_str: remove_last_line_from_string(res_str), res_strs)
 
     passed = expected == actual
