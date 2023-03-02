@@ -57,6 +57,7 @@ Here are some example generators:
 <br />
 ![image](https://user-images.githubusercontent.com/95422056/222484477-578a315e-985b-4603-b98a-a303363f37ab.png)
 <br />
+<br />
 Here is an example of using a condition and reading input from a file:
 <br />
 ![image](https://user-images.githubusercontent.com/95422056/222485244-a08f2619-3df5-4d44-b1bf-b789e2dd9155.png)
