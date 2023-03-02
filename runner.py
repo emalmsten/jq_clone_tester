@@ -18,31 +18,32 @@ def remove_last_line_from_string(s):
 
 
 def run_test(cmd, data):
-    jq = ["jq", "jq-clone"]
+    jq_versions = ["jq", "jq-clone"]
+
+    # if the data is a path to a json file, use type to get the contents, otherwise use echo
     get_data_command = "type" if ".json" in data else "echo"
 
-    res_strs = map(lambda jq_version: os.popen(f"{get_data_command} {data} | {jq_version} \"{cmd}\"").read(), jq)
+    # get the results from running the command on the data with each jq version
+    res_strs = map(lambda jq_version: os.popen(f"{get_data_command} {data} | {jq_version} \"{cmd}\"").read(), jq_versions)
 
+    # remove the last line from the results
     expected, actual = map(lambda res_str: remove_last_line_from_string(res_str), res_strs)
 
     passed = expected == actual
-    if not passed:
-        print(colorize("Failed", cols.FAIL))
-        print(f"{cols.WARNING}        Command: {cols.ENDC}{cmd}")
-        print(f"{cols.WARNING}        Expected: {cols.ENDC}{expected}")
-        print(f"{cols.WARNING}        Actual: {cols.ENDC}{actual}")
-        return False
+    print(colorize("Passed", cols.GREEN)) if passed else print(colorize("Failed", cols.FAIL))
 
-    print(colorize("Passed", cols.GREEN))
-    if VERBOSE:
-        print(f"{cols.BLUE}          Command: {cols.ENDC}{cmd}")
-        print(f"{cols.BLUE}          Expected: {cols.ENDC}{expected}")
-        print(f"{cols.BLUE}          Actual: {cols.ENDC}{actual}")
+    if not passed or VERBOSE:
+        col = cols.WARNING if not passed else cols.BLUE
+        print(f"{col}        Command: {cols.ENDC}{cmd}")
+        print(f"{col}        Expected: {cols.ENDC}{expected}")
+        print(f"{col}        Actual: {cols.ENDC}{actual}")
 
-    return True
+    return passed
 
 
 def run_tests(test: Test):
+    """Generate values for the test and run it on them"""
+
     print(f"    Test {colorize(test.name, cols.BOLD)}..", end=" ")
     for generated in (generate(test)):
         if not run_test(test.cmd(generated), test.data):
@@ -52,7 +53,7 @@ def run_tests(test: Test):
 
 
 def run_test_category(category, name):
-    print(f"Running tests for {cols.BOLD}{name}{cols.ENDC}...")
+    print(f"Running tests for category {cols.BOLD}{name}{cols.ENDC}...")
     tests_failed = 0
     for test in category:
         result = run_tests(test)
@@ -60,7 +61,7 @@ def run_test_category(category, name):
             tests_failed += 1
 
     if tests_failed == 0:
-        print(f"{cols.GREEN}Tests in category passed{cols.ENDC}")
+        print(f"{cols.GREEN}All tests in category passed{cols.ENDC}")
     else:
         print(f"{cols.FAIL}Failed {tests_failed} tests{cols.ENDC}")
     print("")

@@ -1,3 +1,6 @@
+import datetime
+
+
 class cols:
     HEADER = '\033[95m'
     BLUE = '\033[94m'
@@ -12,3 +15,7 @@ class cols:
 
 def colorize(text, color):
     return f"{color}{text}{cols.ENDC}"
+
+
+def timeout(ms_before_timeout, start_time):
+    return (datetime.datetime.now() - start_time).total_seconds() > ms_before_timeout / 1000

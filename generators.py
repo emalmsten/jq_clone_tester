@@ -4,7 +4,7 @@ import string
 
 from classes import Test
 from config import GEN_TIMEOUT_MS
-from other import colorize, cols
+from other import colorize, cols, timeout
 
 MIN_VALUE = -1000
 MAX_VALUE = 1000
@@ -12,41 +12,50 @@ STD_STRING_LENGTH = 10
 
 
 def generate(test: Test):
+    """Generates values for a test"""
     values = []
     start_time = datetime.datetime.now()
+
+    # generate values until the amount or timeout is reached
     while len(values) < test.amount:
         value = test.generator()
         if test.condition(value):
             values.append(value)
-        if (datetime.datetime.now() - start_time).total_seconds() > GEN_TIMEOUT_MS/1000:
-            print(colorize(f"Only {len(values)} generated before timeout", cols.FAIL))
+        if timeout(GEN_TIMEOUT_MS, start_time):
+            print(colorize(f"Only {len(values)} values generated before timeout", cols.WARNING), end="  ")
             break
 
     return values
 
 
 # primitive generators
-def gen_empty():
-    return
 
 
-def gen_ints(start=MIN_VALUE, end=MAX_VALUE):
+def gen_int(start=MIN_VALUE, end=MAX_VALUE):
     return lambda: random.randint(start, end)
 
 
-def gen_floats(start=MIN_VALUE, end=MAX_VALUE, decimals=3):
+def gen_float(start=MIN_VALUE, end=MAX_VALUE, decimals=3):
     return lambda: round(random.uniform(start, end), decimals)
 
 
-def gen_strings(length=STD_STRING_LENGTH):
-    return lambda: ''.join(random.choice(string.ascii_letters) for _ in range(length))
+def gen_bool():
+    return lambda: random.choice([True, False])
+
+
+def gen_letter():
+    return lambda: random.choice(string.ascii_letters)
 
 
 # composite generators
+
+def gen_string(length=STD_STRING_LENGTH):
+    return lambda: ''.join([gen_letter()() for _ in range(length)])
+
 
 def gen_array(generator, length=STD_STRING_LENGTH):
     return lambda: [generator() for _ in range(length)]
 
 
-def gen_tuples(generators):
+def gen_tuple(generators):
     return lambda: tuple([generators[i]() for i in range(len(generators))])
