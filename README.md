@@ -14,14 +14,14 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Simply run main.py for some simple tests. More tests can (and should) be added under tests.py. In tests.py there is a brief explantation of how writing a test works. 
+Open in your favourite IDE (pycharm) and simply run main.py. These will run some basics tests but more tests can (and should) be added under tests.py. In there is a brief explantation of how writing a test works. 
 Adding new tests and test categories is hopefully pretty self explanatory. 
 <br />
 The generators (the thing that gives random ints, floats etc) are in the generators.py file. There is an example in the README under <a href="#usage">Usage</a>.
 From this it should be clear how to make additional generators.
 
 ### Prerequisites
-Only works on Windows 10 for now but setting this line (in runners.py)
+Only works on Windows for now but setting this line (in runners.py)
 ```
     get_data_command = "type" if ".json" in data else "echo"
 ```
