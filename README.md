@@ -77,7 +77,7 @@ Here is an example of using a condition and reading input from a file:
 <!-- CONTRIBUTING -->
 ## Contributing
 
-If you have a suggestion that would make this better just mail the suggestion
+If you have a suggestion that would make this better just mail the suggestion or see https://gist.github.com/MarcDiethelm/7303312
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
