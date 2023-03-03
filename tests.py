@@ -36,7 +36,6 @@ identity_tests = {
     ]
 }
 
-
 obj_idx_cmd = lambda x: f".{x}"
 test_obj = '{"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}'
 
@@ -46,11 +45,9 @@ object_index_tests = {
     ]
 }
 
-
 all_tests = {}
 
 # concatenate all the tests wanted
 all_tests.update(identity_tests)
 all_tests.update(object_index_tests)
 all_tests.update(array_tests)
-

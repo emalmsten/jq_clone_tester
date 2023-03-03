@@ -1,5 +1,4 @@
 import os
-import sys
 
 from config import VERBOSE
 from generators import generate
@@ -27,9 +26,9 @@ def run_test(cmd, data, name, i):
     # comment the line above and uncomment this line for use on linux and mac (I think)
     # get_data_command = "cat" if ".json" in data else "echo"
 
-
     # get the results from running the command on the data with each jq version
-    res_strs = map(lambda jq_version: os.popen(f"{get_data_command} {data} | {jq_version} \"{cmd}\"").read(), jq_versions)
+    res_strs = map(lambda jq_version: os.popen(f"{get_data_command} {data} | {jq_version} \"{cmd}\"").read(),
+                   jq_versions)
 
     # remove the last empty line from the results
     expected, actual = map(lambda res_str: remove_last_line_from_string(res_str), res_strs)
@@ -40,7 +39,7 @@ def run_test(cmd, data, name, i):
     start_str = f"    Test {colorize(name, cols.BOLD)}.."
     if not passed:
         print(" ", end='\r')
-        print(start_str + colorize(f" Failed after {i} tests", cols.FAIL), end="")
+        print(start_str + colorize(f" Failed on test no {i}", cols.FAIL), end="")
 
     elif not VERBOSE:
         print(" ", end='\r')
@@ -67,11 +66,12 @@ def verbose_printing(cmd, expected, actual, color):
     print(colorize(f"{indent}Expected: ", color) + f"{expected}")
     print(colorize(f"{indent}Actual: ", color) + f"{actual}")
 
+
 def run_tests(test: Test):
     """Generate values for the test and run it on them"""
 
     for i, generated in enumerate(generate(test)):
-        if not run_test(test.cmd(generated), test.data, test.name, i+1):
+        if not run_test(test.cmd(generated), test.data, test.name, i + 1):
             return False
     return True
 
