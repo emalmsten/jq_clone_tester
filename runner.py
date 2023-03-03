@@ -1,9 +1,10 @@
 import os
 
+from classes import Test
 from config import VERBOSE
 from generators import generate
 from other import cols, colorize
-from tests import Test
+from tests import MultiTest
 
 
 def run_all(all_tests):
@@ -17,7 +18,7 @@ def remove_last_line_from_string(s):
     return s[:s.rfind('\n')]
 
 
-def run_test(cmd, data, name, i):
+def execute_test_case(cmd, data, name, i):
     jq_versions = ["jq", "jq-clone"]
 
     # if the data is a path to a json file, use type to get the contents, otherwise use echo
@@ -67,20 +68,22 @@ def verbose_printing(cmd, expected, actual, color):
     print(colorize(f"{indent}Actual: ", color) + f"{actual}")
 
 
-def run_tests(test: Test):
+def run_multi_test(test: MultiTest):
     """Generate values for the test and run it on them"""
-
     for i, generated in enumerate(generate(test)):
-        if not run_test(test.cmd(generated), test.data, test.name, i + 1):
+        if not execute_test_case(test.cmd(generated), test.data, test.name, i + 1):
             return False
     return True
 
+def run_single_test(test: Test):
+    """Generate values for the test and run it on them"""
+    return execute_test_case(test.cmd, test.data, test.name, 1)
 
 def run_test_category(category, name):
     print(f"Running tests for category {cols.BOLD}{name}{cols.ENDC}...")
     tests_failed = 0
     for test in category:
-        result = run_tests(test)
+        result = run_multi_test(test) if isinstance(test, MultiTest) else run_single_test(test)
         if not result:
             tests_failed += 1
         print(" ")

@@ -2,7 +2,7 @@ import datetime
 import random
 import string
 
-from classes import Test
+from classes import MultiTest
 from config import GEN_TIMEOUT_MS
 from other import colorize, cols, timeout
 
@@ -11,7 +11,7 @@ MAX_VALUE = 1000
 STD_STRING_LENGTH = 10
 
 
-def generate(test: Test):
+def generate(test: MultiTest):
     """Generates values for a test"""
     values = []
     start_time = datetime.datetime.now()

@@ -1,5 +1,5 @@
 from generators import *
-from classes import Test
+from classes import MultiTest, Test
 import os.path
 
 # the path to the json files
@@ -16,18 +16,18 @@ array_tests = {
     # the test category
     "Array Index Tests": [
         # instances of tests
-        Test("Ints", index_cmd, test_array, generator=gen_int(-10, 10)),
-        Test("Floats", index_cmd, test_array, generator=gen_float(-10, 10)),
+        MultiTest("Ints", index_cmd, test_array, generator=gen_int(-10, 10)),
+        MultiTest("Floats", index_cmd, test_array, generator=gen_float(-10, 10)),
     ],
     "Array Slice": [
-        Test("Ints", slice_cmd, test_array, generator=gen_array(gen_int(-10, 10), length=2)),
+        MultiTest("Ints", slice_cmd, test_array, generator=gen_array(gen_int(-10, 10), length=2)),
     ],
 }
 
 # a path to a json file
 example_file = os.path.join(data_files_path, "example.json")
 
-identity_cmd = lambda _: "."
+identity_cmd = "."
 
 identity_tests = {
     "Identity": [
@@ -41,7 +41,7 @@ test_obj = '{"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}'
 
 object_index_tests = {
     "Object Index": [
-        Test("Simple", obj_idx_cmd, test_obj, generator=gen_letter(), condition=lambda x: x in "abcde"),
+        MultiTest("Simple", obj_idx_cmd, test_obj, generator=gen_letter(), condition=lambda x: x in "abcde"),
     ]
 }
 
