@@ -45,9 +45,3 @@ object_index_tests = {
     ]
 }
 
-all_tests = {}
-
-# concatenate all the tests wanted
-all_tests.update(identity_tests)
-all_tests.update(object_index_tests)
-all_tests.update(array_tests)
