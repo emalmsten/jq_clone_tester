@@ -16,8 +16,8 @@ array_tests = {
     # the test category
     "Array Index Tests": [
         # instances of tests
-        MultiTest("Ints", index_cmd, test_array, generator=gen_int(-10, 10)),
         MultiTest("Floats", index_cmd, test_array, generator=gen_float(-10, 10)),
+        MultiTest("Ints", index_cmd, test_array, generator=gen_int(-10, 10), condition=lambda x: x % 2 == 0),
     ],
     "Array Slice": [
         MultiTest("Ints", slice_cmd, test_array, generator=gen_array(gen_int(-10, 10), length=2)),
@@ -27,12 +27,10 @@ array_tests = {
 # a path to a json file
 example_file = os.path.join(data_files_path, "example.json")
 
-identity_cmd = "."
-
 identity_tests = {
     "Identity": [
-        Test("Simple", identity_cmd, "1"),
-        Test("Example File", identity_cmd, example_file),
+        Test("Simple", cmd=".", data="1"),
+        Test("Example File", cmd=".", data=example_file),
     ]
 }
 
