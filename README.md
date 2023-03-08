@@ -132,6 +132,8 @@ def gen_string(length=STD_STRING_LENGTH):
 ```
 <br />
 
+Lastly, different settings can be changed in the config.py file.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
