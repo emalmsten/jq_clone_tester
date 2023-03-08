@@ -18,10 +18,15 @@ Open in your favourite IDE (probably pycharm) and simply run main.py.
 These will run some basics tests but more tests can (and should) be added under tests.py.
 In there (and under <a href="#usage">Usage</a>) are explantation of how writing a test works. 
 Adding new tests and test categories is hopefully pretty self explanatory. 
+
 <br />
 The generators (the thing that gives random ints, floats etc) are in the generators.py file.
 There is also some examples in the README under <a href="#usage">Usage</a>.
-From this it should be clear how to make additional generators if need be.
+From this it should be clear how to make additional generators if need be. 
+
+
+Some settings can be changed in config.py
+
 
 ### Prerequisites
 Only works on Windows for now but setting this line (in runners.py)
