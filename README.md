@@ -28,6 +28,9 @@ From this it should be clear how to make additional generators if need be.
 <br />
 Some settings can be changed in config.py
 
+<br />
+Atleast on windows, it is currently not supported to have strings in filters. On request this can be fixed.
+
 
 ### Prerequisites
 Only works on Windows for now but setting this line (in runners.py)
